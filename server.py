@@ -57,7 +57,7 @@ def create():
                 yubico_exceptions.YubicoError) as e:
             is_valid = False
             flash("There is an issue with your Yubikey, please try again", 'yubikey')
-        else:
+        except:
             is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
     if is_valid:
@@ -103,11 +103,11 @@ def on_login():
     elif len(request.form['yubi']) > 0:
         try:
             yubi_client.verify(request.form['yubi'])
-        # except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
-        except:
+        except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        # except:
             is_valid = False
             flash("There is an issue with your Yubikey, please try again", 'yubikey')
-        else:
+        except:
             is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
 
@@ -168,7 +168,10 @@ def yubi_update():
     elif len(request.form['yubi']) > 0:
         try:
             yubi_client.verify(request.form['yubi'])
-        # except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        # except:
+            is_valid = False
+            flash("There is an issue with your Yubikey, please try again", 'yubikey')
         except:
             is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
