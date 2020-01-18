@@ -56,6 +56,9 @@ def create():
                 yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse,
                 yubico_exceptions.YubicoError) as e:
             is_valid = False
+            flash("There is an issue with your Yubikey, please try again", 'yubikey')
+        else:
+            is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
     if is_valid:
         # include some logic to validate user input before adding them to the database!
@@ -100,7 +103,11 @@ def on_login():
     elif len(request.form['yubi']) > 0:
         try:
             yubi_client.verify(request.form['yubi'])
-        except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        # except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        except:
+            is_valid = False
+            flash("There is an issue with your Yubikey, please try again", 'yubikey')
+        else:
             is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
 
@@ -126,7 +133,7 @@ def on_login():
                 flash("Email/Password combo is invalid")
                 return redirect("/")
         else:
-            flash("Email is not valid")
+            flash("Email or yubikey is not valid")
             # print(user_data)
             return redirect("/")
     else:
@@ -161,7 +168,8 @@ def yubi_update():
     elif len(request.form['yubi']) > 0:
         try:
             yubi_client.verify(request.form['yubi'])
-        except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        # except (yubico_exceptions.StatusCodeError, yubico_exceptions.SignatureVerificationError, yubico_exceptions.InvalidClientIdError, yubico_exceptions.InvalidValidationResponse, yubico_exceptions.YubicoError) as e:
+        except:
             is_valid = False
             flash("Your Yubikey is invalid, please try again", 'yubikey')
 
