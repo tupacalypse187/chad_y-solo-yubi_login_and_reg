@@ -16,6 +16,6 @@ pycparser>=2.19
 pylint>=2.4.4
 PyMySQL>=0.9.3
 six>=1.13.0
-Werkzeug>=0.16.0
+Werkzeug>=3.0.1
 wrapt>=1.11.2
 yubico_client>=1.12.0
